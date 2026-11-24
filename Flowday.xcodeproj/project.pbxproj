@@ -1,0 +1,668 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		02090D66F3285FEA277C63E3 /* TaskStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D1955B38843A5736E9E0E1 /* TaskStore.swift */; };
+		17A18B953067420C923F63CF /* WidgetSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2C9EE1F976432D8AD587BB /* WidgetSnapshot.swift */; };
+		202BF63B61A047E49E1945B8 /* TaskPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DC97C1B11AB3ABBA9621FE /* TaskPersistence.swift */; };
+		22CEA280B54E7E27C0652BE2 /* ReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B18A157A476D380858FC689 /* ReminderService.swift */; };
+		24F64D31B1DD5FF27DE699DE /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC18FD2BC89C77D66E5F3875 /* SidebarView.swift */; };
+		2E804F12CB5B112BAA6B3BD3 /* FlowdayUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3739AB5940AD23F5CE733C8 /* FlowdayUITests.swift */; };
+		32F1B616DB6A15913930FC0A /* PreviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA9BE9EC4E2716E8D95E03AF /* PreviewData.swift */; };
+		395B64E4D36F56933B582EB8 /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 846BA3748532BAF258630B26 /* AppIcon.icns */; };
+		3A905E76CFF79EF750E24E3B /* TaskRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1824796604767BBB3E9FC8 /* TaskRowView.swift */; };
+		3AD5EBEAFE08410BA6EC74AE /* FlowdayWidgets.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = FBA583F336374E898D2D3A15 /* FlowdayWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		40095C2A0BC09ED7D95A9893 /* FlowdayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F68B0581BE02D39269A403 /* FlowdayTests.swift */; };
+		4FD382019CC0491DB138521E /* FlowdayWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21A8C5B17EC4115A6D2CFB6 /* FlowdayWidgets.swift */; };
+		5E4ED8DD89E54E4EAE03E19C /* CompletionCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F14A0E579642F6A51E92B0 /* CompletionCalendarView.swift */; };
+		650445BAFF9B8088473CCCF1 /* FlowdayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6710678BC3174B13C67666 /* FlowdayApp.swift */; };
+		73035FBA6CB345E281D1C72E /* WidgetSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2C9EE1F976432D8AD587BB /* WidgetSnapshot.swift */; };
+		7F65B1CFDC904706BFF10E95 /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 846BA3748532BAF258630B26 /* AppIcon.icns */; };
+		8DB764BC59208AA8D27F29F1 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC5335D93279FC6EA6BDE29 /* AppSettings.swift */; };
+		90F57CDC14C5460FB8CC95F1 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC5335D93279FC6EA6BDE29 /* AppSettings.swift */; };
+		9F8156597CBC7599034B6138 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970683EA14C0AEF0F4B4244F /* ContentView.swift */; };
+		A086488A0D05B7A72BD60363 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92AFCC4802FC329868268F82 /* SettingsView.swift */; };
+		B829AAEEDBDB45DC9DB6F8FA /* TaskItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D74BF4C2F3CEF9AB0D9C5A0 /* TaskItem.swift */; };
+		C5D0CD15BAB20B49AE4EB866 /* TaskEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7378EBC31BE40E9465044E74 /* TaskEditorView.swift */; };
+		C6D522BC71C9C23D27E8AAAB /* TaskPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DC97C1B11AB3ABBA9621FE /* TaskPersistence.swift */; };
+		DE33CA75F031F50149DF9222 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB0E87B7D26898D018F521A /* Theme.swift */; };
+		EF3CAF228FBBD8D1A560D29C /* TaskItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D74BF4C2F3CEF9AB0D9C5A0 /* TaskItem.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A8B6FD936A7E4F5D93ED3BB4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98F54143AB4E86B28C3AFEE0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E30DD0415C17404D8A894C56;
+			remoteInfo = FlowdayWidgets;
+		};
+		D3843840D3468FCED810ABC2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98F54143AB4E86B28C3AFEE0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 981E6898D0F945E04F5A4EF5;
+			remoteInfo = Flowday;
+		};
+		E68471B62DAAD40B3A4B045E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98F54143AB4E86B28C3AFEE0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 981E6898D0F945E04F5A4EF5;
+			remoteInfo = Flowday;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E0E90D32733D49DA89668046 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				3AD5EBEAFE08410BA6EC74AE /* FlowdayWidgets.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		1DB0E87B7D26898D018F521A /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		3D4651DA994A439E9B27E4EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3D74BF4C2F3CEF9AB0D9C5A0 /* TaskItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItem.swift; sourceTree = "<group>"; };
+		58F68B0581BE02D39269A403 /* FlowdayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowdayTests.swift; sourceTree = "<group>"; };
+		6BF0C36020A3382BED81E829 /* Flowday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; path = Flowday.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7378EBC31BE40E9465044E74 /* TaskEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditorView.swift; sourceTree = "<group>"; };
+		73D1955B38843A5736E9E0E1 /* TaskStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStore.swift; sourceTree = "<group>"; };
+		83DAC8DA05E14D4E8C5822F2 /* Flowday.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flowday.entitlements; sourceTree = "<group>"; };
+		846BA3748532BAF258630B26 /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AppIcon.icns; sourceTree = "<group>"; };
+		8B18A157A476D380858FC689 /* ReminderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderService.swift; sourceTree = "<group>"; };
+		8FC5335D93279FC6EA6BDE29 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		92AFCC4802FC329868268F82 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		970683EA14C0AEF0F4B4244F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		9DBA2D4D64395AB8AB44D263 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9E66DB7D0F4149D2991848D1 /* FlowdayWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FlowdayWidgets.entitlements; sourceTree = "<group>"; };
+		A3F14A0E579642F6A51E92B0 /* CompletionCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionCalendarView.swift; sourceTree = "<group>"; };
+		AE2C9EE1F976432D8AD587BB /* WidgetSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSnapshot.swift; sourceTree = "<group>"; };
+		CB1824796604767BBB3E9FC8 /* TaskRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRowView.swift; sourceTree = "<group>"; };
+		CC18FD2BC89C77D66E5F3875 /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
+		D907E1F3C687A7295E0DE7AB /* FlowdayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = FlowdayTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E21A8C5B17EC4115A6D2CFB6 /* FlowdayWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowdayWidgets.swift; sourceTree = "<group>"; };
+		E3739AB5940AD23F5CE733C8 /* FlowdayUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowdayUITests.swift; sourceTree = "<group>"; };
+		EA9BE9EC4E2716E8D95E03AF /* PreviewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewData.swift; sourceTree = "<group>"; };
+		EF6710678BC3174B13C67666 /* FlowdayApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowdayApp.swift; sourceTree = "<group>"; };
+		F4DC97C1B11AB3ABBA9621FE /* TaskPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPersistence.swift; sourceTree = "<group>"; };
+		F765FC6AD9382C33899A52C9 /* FlowdayUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = FlowdayUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FBA583F336374E898D2D3A15 /* FlowdayWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; path = FlowdayWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		32E32714280E4971A2EFAA8D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9F9EEEA4471E3DE03678ADDC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA8E2C8A8509372F70E72E67 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F259964D4213F83DD6D62AAE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		17B427CB27AB5D29BF476499 /* FlowdayTests */ = {
+			isa = PBXGroup;
+			children = (
+				58F68B0581BE02D39269A403 /* FlowdayTests.swift */,
+			);
+			path = FlowdayTests;
+			sourceTree = "<group>";
+		};
+		57FB612274BE45F3926DA021 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				AE2C9EE1F976432D8AD587BB /* WidgetSnapshot.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		A8A8A44712E895137A9B39F5 /* FlowdayUITests */ = {
+			isa = PBXGroup;
+			children = (
+				E3739AB5940AD23F5CE733C8 /* FlowdayUITests.swift */,
+			);
+			path = FlowdayUITests;
+			sourceTree = "<group>";
+		};
+		ABC01689105148B5BEB7D2C5 /* FlowdayWidgets */ = {
+			isa = PBXGroup;
+			children = (
+				E21A8C5B17EC4115A6D2CFB6 /* FlowdayWidgets.swift */,
+				3D4651DA994A439E9B27E4EA /* Info.plist */,
+				9E66DB7D0F4149D2991848D1 /* FlowdayWidgets.entitlements */,
+			);
+			path = FlowdayWidgets;
+			sourceTree = "<group>";
+		};
+		B28B7AF69320201D1CF206EB = {
+			isa = PBXGroup;
+			children = (
+				57FB612274BE45F3926DA021 /* Shared */,
+				ABC01689105148B5BEB7D2C5 /* FlowdayWidgets */,
+				BAD7EE60B1A8BB1B79AC7359 /* Flowday */,
+				17B427CB27AB5D29BF476499 /* FlowdayTests */,
+				A8A8A44712E895137A9B39F5 /* FlowdayUITests */,
+				FBDC4F23F93125BBEEAE800C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BAD7EE60B1A8BB1B79AC7359 /* Flowday */ = {
+			isa = PBXGroup;
+			children = (
+				83DAC8DA05E14D4E8C5822F2 /* Flowday.entitlements */,
+				A3F14A0E579642F6A51E92B0 /* CompletionCalendarView.swift */,
+				3D74BF4C2F3CEF9AB0D9C5A0 /* TaskItem.swift */,
+				8FC5335D93279FC6EA6BDE29 /* AppSettings.swift */,
+				F4DC97C1B11AB3ABBA9621FE /* TaskPersistence.swift */,
+				73D1955B38843A5736E9E0E1 /* TaskStore.swift */,
+				8B18A157A476D380858FC689 /* ReminderService.swift */,
+				EF6710678BC3174B13C67666 /* FlowdayApp.swift */,
+				1DB0E87B7D26898D018F521A /* Theme.swift */,
+				CC18FD2BC89C77D66E5F3875 /* SidebarView.swift */,
+				970683EA14C0AEF0F4B4244F /* ContentView.swift */,
+				7378EBC31BE40E9465044E74 /* TaskEditorView.swift */,
+				CB1824796604767BBB3E9FC8 /* TaskRowView.swift */,
+				92AFCC4802FC329868268F82 /* SettingsView.swift */,
+				EA9BE9EC4E2716E8D95E03AF /* PreviewData.swift */,
+				846BA3748532BAF258630B26 /* AppIcon.icns */,
+				9DBA2D4D64395AB8AB44D263 /* Info.plist */,
+			);
+			path = Flowday;
+			sourceTree = "<group>";
+		};
+		FBDC4F23F93125BBEEAE800C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FBA583F336374E898D2D3A15 /* FlowdayWidgets.appex */,
+				6BF0C36020A3382BED81E829 /* Flowday.app */,
+				D907E1F3C687A7295E0DE7AB /* FlowdayTests.xctest */,
+				F765FC6AD9382C33899A52C9 /* FlowdayUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4E3427354FB10A208D4402BD /* FlowdayUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 97D6BE9A32247A458D61CD28 /* Build configuration list for PBXNativeTarget "FlowdayUITests" */;
+			buildPhases = (
+				A6C28DE138A0714C88F507F4 /* Sources */,
+				9F9EEEA4471E3DE03678ADDC /* Frameworks */,
+				6EBC76B374886810AA7FCDC6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9774FDE0F890DD86BAD85F0C /* PBXTargetDependency */,
+			);
+			name = FlowdayUITests;
+			productName = FlowdayUITests;
+			productReference = F765FC6AD9382C33899A52C9 /* FlowdayUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		981E6898D0F945E04F5A4EF5 /* Flowday */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 409695132E1EC0B87D7E0039 /* Build configuration list for PBXNativeTarget "Flowday" */;
+			buildPhases = (
+				1B9AFF31C56EA68726E0BDBF /* Sources */,
+				DA8E2C8A8509372F70E72E67 /* Frameworks */,
+				D8E308E167A4107117B58745 /* Resources */,
+				E0E90D32733D49DA89668046 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6E1945DA8C9742CAB5111A16 /* PBXTargetDependency */,
+			);
+			name = Flowday;
+			productName = Flowday;
+			productReference = 6BF0C36020A3382BED81E829 /* Flowday.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A81486B041B0BB63842D8E43 /* FlowdayTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 067D63C17C4435CA262B3AE1 /* Build configuration list for PBXNativeTarget "FlowdayTests" */;
+			buildPhases = (
+				AF1610B2270D36C42D16123D /* Sources */,
+				F259964D4213F83DD6D62AAE /* Frameworks */,
+				DD4CFB7AAFA5379D791D2A66 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0670E26C792DDCD6C66CCB58 /* PBXTargetDependency */,
+			);
+			name = FlowdayTests;
+			productName = FlowdayTests;
+			productReference = D907E1F3C687A7295E0DE7AB /* FlowdayTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		E30DD0415C17404D8A894C56 /* FlowdayWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D4B09E17ED58489AB98D19E8 /* Build configuration list for PBXNativeTarget "FlowdayWidgets" */;
+			buildPhases = (
+				18F0CC85D9D7405F9739ECCE /* Sources */,
+				32E32714280E4971A2EFAA8D /* Frameworks */,
+				F0A8DA2364BD4C93BF5E9E3C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FlowdayWidgets;
+			productName = FlowdayWidgets;
+			productReference = FBA583F336374E898D2D3A15 /* FlowdayWidgets.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		98F54143AB4E86B28C3AFEE0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastSwiftUpdateCheck = 2720;
+				LastUpgradeCheck = 2720;
+			};
+			buildConfigurationList = 12D04D787E90C9B967248BFD /* Build configuration list for PBXProject "Flowday" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = "zh-Hans";
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				"zh-Hans",
+			);
+			mainGroup = B28B7AF69320201D1CF206EB;
+			productRefGroup = FBDC4F23F93125BBEEAE800C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E30DD0415C17404D8A894C56 /* FlowdayWidgets */,
+				981E6898D0F945E04F5A4EF5 /* Flowday */,
+				A81486B041B0BB63842D8E43 /* FlowdayTests */,
+				4E3427354FB10A208D4402BD /* FlowdayUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6EBC76B374886810AA7FCDC6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D8E308E167A4107117B58745 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				395B64E4D36F56933B582EB8 /* AppIcon.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD4CFB7AAFA5379D791D2A66 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F0A8DA2364BD4C93BF5E9E3C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7F65B1CFDC904706BFF10E95 /* AppIcon.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		18F0CC85D9D7405F9739ECCE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4FD382019CC0491DB138521E /* FlowdayWidgets.swift in Sources */,
+				73035FBA6CB345E281D1C72E /* WidgetSnapshot.swift in Sources */,
+				B829AAEEDBDB45DC9DB6F8FA /* TaskItem.swift in Sources */,
+				90F57CDC14C5460FB8CC95F1 /* AppSettings.swift in Sources */,
+				202BF63B61A047E49E1945B8 /* TaskPersistence.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1B9AFF31C56EA68726E0BDBF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				17A18B953067420C923F63CF /* WidgetSnapshot.swift in Sources */,
+				5E4ED8DD89E54E4EAE03E19C /* CompletionCalendarView.swift in Sources */,
+				EF3CAF228FBBD8D1A560D29C /* TaskItem.swift in Sources */,
+				8DB764BC59208AA8D27F29F1 /* AppSettings.swift in Sources */,
+				C6D522BC71C9C23D27E8AAAB /* TaskPersistence.swift in Sources */,
+				02090D66F3285FEA277C63E3 /* TaskStore.swift in Sources */,
+				22CEA280B54E7E27C0652BE2 /* ReminderService.swift in Sources */,
+				650445BAFF9B8088473CCCF1 /* FlowdayApp.swift in Sources */,
+				DE33CA75F031F50149DF9222 /* Theme.swift in Sources */,
+				24F64D31B1DD5FF27DE699DE /* SidebarView.swift in Sources */,
+				9F8156597CBC7599034B6138 /* ContentView.swift in Sources */,
+				C5D0CD15BAB20B49AE4EB866 /* TaskEditorView.swift in Sources */,
+				3A905E76CFF79EF750E24E3B /* TaskRowView.swift in Sources */,
+				A086488A0D05B7A72BD60363 /* SettingsView.swift in Sources */,
+				32F1B616DB6A15913930FC0A /* PreviewData.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A6C28DE138A0714C88F507F4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2E804F12CB5B112BAA6B3BD3 /* FlowdayUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF1610B2270D36C42D16123D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				40095C2A0BC09ED7D95A9893 /* FlowdayTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0670E26C792DDCD6C66CCB58 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 981E6898D0F945E04F5A4EF5 /* Flowday */;
+			targetProxy = D3843840D3468FCED810ABC2 /* PBXContainerItemProxy */;
+		};
+		6E1945DA8C9742CAB5111A16 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E30DD0415C17404D8A894C56 /* FlowdayWidgets */;
+			targetProxy = A8B6FD936A7E4F5D93ED3BB4 /* PBXContainerItemProxy */;
+		};
+		9774FDE0F890DD86BAD85F0C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 981E6898D0F945E04F5A4EF5 /* Flowday */;
+			targetProxy = E68471B62DAAD40B3A4B045E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1C34728CD627AAA981B7277B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = local.daylight.native.daylighttests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Flowday.app/Contents/MacOS/Flowday";
+			};
+			name = Debug;
+		};
+		1CCCB9D29E9E922897B0E898 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Flowday/Flowday.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 3;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Flowday/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = local.daylight.native;
+				PRODUCT_NAME = Flowday;
+				SWIFT_MODULE_NAME = Flowday;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		262E02E3C63E2FBADCBCB6A2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				DAYLIGHT_APP_GROUP = "$(DEVELOPMENT_TEAM).local.daylight.native";
+				DEVELOPMENT_TEAM = NS5HL6F8H6;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = targeted;
+			};
+			name = Debug;
+		};
+		269C897D117CCEFF4E68BC62 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = local.daylight.native.daylightuitests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Flowday;
+			};
+			name = Debug;
+		};
+		86E0D76135EE80816AB07AC0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				DAYLIGHT_APP_GROUP = "$(DEVELOPMENT_TEAM).local.daylight.native";
+				DEVELOPMENT_TEAM = NS5HL6F8H6;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = targeted;
+			};
+			name = Release;
+		};
+		98C37B2D6970DC1BB2D2B54E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Flowday/Flowday.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 3;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Flowday/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = local.daylight.native;
+				PRODUCT_NAME = Flowday;
+				SWIFT_MODULE_NAME = Flowday;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		9EC88DFA317169C6DCD65634 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = local.daylight.native.daylightuitests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Flowday;
+			};
+			name = Release;
+		};
+		D0BAFBECDC17413488B5599B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = FlowdayWidgets/FlowdayWidgets.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = NS5HL6F8H6;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = FlowdayWidgets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = local.daylight.native.widgets;
+				PRODUCT_NAME = FlowdayWidgets;
+				SWIFT_MODULE_NAME = FlowdayWidgets;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		E107A303E7EA038D15EC6FF1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = local.daylight.native.daylighttests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Flowday.app/Contents/MacOS/Flowday";
+			};
+			name = Release;
+		};
+		E80421F9C44F41FEAC02315B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = FlowdayWidgets/FlowdayWidgets.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = NS5HL6F8H6;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = FlowdayWidgets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = local.daylight.native.widgets;
+				PRODUCT_NAME = FlowdayWidgets;
+				SWIFT_MODULE_NAME = FlowdayWidgets;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		067D63C17C4435CA262B3AE1 /* Build configuration list for PBXNativeTarget "FlowdayTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1C34728CD627AAA981B7277B /* Debug */,
+				E107A303E7EA038D15EC6FF1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		12D04D787E90C9B967248BFD /* Build configuration list for PBXProject "Flowday" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				262E02E3C63E2FBADCBCB6A2 /* Debug */,
+				86E0D76135EE80816AB07AC0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		409695132E1EC0B87D7E0039 /* Build configuration list for PBXNativeTarget "Flowday" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1CCCB9D29E9E922897B0E898 /* Debug */,
+				98C37B2D6970DC1BB2D2B54E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		97D6BE9A32247A458D61CD28 /* Build configuration list for PBXNativeTarget "FlowdayUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				269C897D117CCEFF4E68BC62 /* Debug */,
+				9EC88DFA317169C6DCD65634 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D4B09E17ED58489AB98D19E8 /* Build configuration list for PBXNativeTarget "FlowdayWidgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E80421F9C44F41FEAC02315B /* Debug */,
+				D0BAFBECDC17413488B5599B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 98F54143AB4E86B28C3AFEE0 /* Project object */;
+}
