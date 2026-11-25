@@ -21,6 +21,12 @@ final class FlowdayTests: XCTestCase {
     return directory.appendingPathComponent("tasks.json")
   }
 
+  @MainActor
+  private func freeze(_ store: TaskStore, at date: Date) {
+    store.clock = { date }
+    store.now = date
+  }
+
   private func task(
     _ id: String, dueDate: String? = nil, dueTime: String? = nil,
     priority: Priority = .medium, completed: Bool = false, completedAt: Date? = nil
@@ -52,7 +58,7 @@ final class FlowdayTests: XCTestCase {
   func testCreateEditCompleteRestoreDeleteAndReload() async throws {
     let url = try temporaryURL()
     let store = TaskStore(url: url)
-    store.now = now
+    freeze(store, at: now)
     XCTAssertTrue(store.tasks.isEmpty)
     var item = task("one", dueDate: "2026-11-24", dueTime: "18:00")
     item.title = "  整理笔记  "
@@ -87,10 +93,10 @@ final class FlowdayTests: XCTestCase {
   @MainActor
   func testEditingCompletedTaskPreservesCompletionTimestamp() async throws {
     let store = TaskStore(url: try temporaryURL())
-    store.now = now
+    freeze(store, at: now)
     XCTAssertTrue(store.saveTask(task("done", completed: true)))
     var edited = store.tasks[0]
-    store.now = now.addingTimeInterval(3600)
+    freeze(store, at: now.addingTimeInterval(3600))
     edited.title = "补充记录"
     XCTAssertTrue(store.saveTask(edited))
     XCTAssertEqual(store.tasks[0].completedAt, now)
@@ -99,7 +105,7 @@ final class FlowdayTests: XCTestCase {
   @MainActor
   func testSnoozeHidesReminderUntilExpiryAndCompletionClearsSnooze() async throws {
     let store = TaskStore(url: try temporaryURL())
-    store.now = Date(timeIntervalSince1970: 1_800_000_000)
+    freeze(store, at: Date(timeIntervalSince1970: 1_800_000_000))
     let due = store.now.addingTimeInterval(-3600)
     let item = task("overdue", dueDate: TaskDates.day(due), dueTime: TaskDates.time(due))
     XCTAssertTrue(store.saveTask(item))
@@ -664,7 +670,7 @@ final class FlowdayTests: XCTestCase {
   @MainActor
   func testCompletionCalendarUpdatesAfterCompleteRestoreAndCompleteOnAnotherDay() async throws {
     let store = TaskStore(url: try temporaryURL())
-    store.now = now
+    freeze(store, at: now)
     XCTAssertTrue(store.saveTask(task("calendar-task")))
     store.toggle("calendar-task")
     XCTAssertEqual(
@@ -676,7 +682,7 @@ final class FlowdayTests: XCTestCase {
       CompletionCalendarLogic.completedTasks(store.tasks, on: now, calendar: calendar).isEmpty)
     XCTAssertNil(TaskLogic.completionCounts(store.tasks, calendar: calendar)["2026-11-24"])
     let tomorrow = try XCTUnwrap(calendar.date(byAdding: .day, value: 1, to: now))
-    store.now = tomorrow
+    freeze(store, at: tomorrow)
     store.toggle("calendar-task")
     XCTAssertTrue(
       CompletionCalendarLogic.completedTasks(store.tasks, on: now, calendar: calendar).isEmpty)
@@ -717,5 +723,77 @@ final class FlowdayTests: XCTestCase {
     XCTAssertEqual(plans.count, 64)
     XCTAssertEqual(plans.map(\.date), plans.map(\.date).sorted())
     XCTAssertEqual(Set(plans.map(\.identifier)).count, plans.count)
+  }
+
+  func testReminderPlanSnoozeOnFarFutureTaskKeepsAdvanceAlert() {
+    let due = now.addingTimeInterval(5 * 86400)
+    var item = task("far", dueDate: TaskDates.day(due), dueTime: TaskDates.time(due))
+    item.snoozedUntil = now.addingTimeInterval(3600)
+    let plans = ReminderPlan.make(tasks: [item], hours: 24, now: now)
+    XCTAssertEqual(plans.map(\.date), [item.snoozedUntil!, due.addingTimeInterval(-86400), due])
+    XCTAssertTrue(plans[1].identifier.hasSuffix(".soon"))
+
+    // After the snooze has fired, the advance and due alerts are still planned.
+    let later = now.addingTimeInterval(7200)
+    let afterSnooze = ReminderPlan.make(tasks: [item], hours: 24, now: later)
+    XCTAssertEqual(afterSnooze.map(\.date), [due.addingTimeInterval(-86400), due])
+  }
+
+  func testReminderPlanSkipsAlreadyOverdueDueAlerts() {
+    let past = now.addingTimeInterval(-3600)
+    let overdue = task("overdue", dueDate: TaskDates.day(past), dueTime: TaskDates.time(past))
+    XCTAssertTrue(ReminderPlan.make(tasks: [overdue], hours: 24, now: now).isEmpty)
+  }
+
+  func testDefaultDeadlineNeverStartsInThePast() throws {
+    func at(_ hour: Int, _ minute: Int, day: Int = 24) throws -> Date {
+      try XCTUnwrap(
+        calendar.date(
+          from: DateComponents(year: 2026, month: 11, day: day, hour: hour, minute: minute)))
+    }
+    XCTAssertEqual(TaskDates.defaultDeadline(now: try at(12, 0), calendar: calendar), try at(18, 0))
+    XCTAssertEqual(TaskDates.defaultDeadline(now: try at(17, 0), calendar: calendar), try at(18, 0))
+    XCTAssertEqual(
+      TaskDates.defaultDeadline(now: try at(17, 10), calendar: calendar), try at(19, 30))
+    XCTAssertEqual(
+      TaskDates.defaultDeadline(now: try at(18, 30), calendar: calendar), try at(20, 30))
+    XCTAssertEqual(TaskDates.defaultDeadline(now: try at(18, 40), calendar: calendar), try at(21, 0))
+    XCTAssertEqual(
+      TaskDates.defaultDeadline(now: try at(23, 10), calendar: calendar), try at(1, 30, day: 25))
+  }
+
+  @MainActor
+  func testNewTaskDraftUsesFreshDefaultDeadline() throws {
+    let store = TaskStore(url: try temporaryURL())
+    let evening = try XCTUnwrap(calendar.date(byAdding: .hour, value: 8, to: now))  // 20:00
+    store.clock = { evening }
+    store.newTask()
+    let draft = try XCTUnwrap(store.editor)
+    let deadline = try XCTUnwrap(draft.task.deadline())
+    XCTAssertGreaterThan(deadline, evening)
+    XCTAssertEqual(store.now, evening)
+  }
+
+  func testDecodingFillsMissingFieldsAndAcceptsEnglishCategories() throws {
+    let json = """
+      {"tasks":[{"id":"minimal","title":"最少字段"},
+                {"id":"english","title":"英文分类","category":"study"}],
+       "settings":{"theme":"unknown-theme"}}
+      """
+    let document = try TaskPersistence.decoder().decode(TaskDocument.self, from: Data(json.utf8))
+    XCTAssertEqual(document.version, 1)
+    XCTAssertEqual(document.tasks[0].priority, .medium)
+    XCTAssertEqual(document.tasks[0].category, .work)
+    XCTAssertFalse(document.tasks[0].completed)
+    XCTAssertEqual(document.tasks[1].category, .study)
+    XCTAssertEqual(document.settings, AppSettings())
+    XCTAssertNoThrow(try TaskPersistence.validate(document))
+
+    let roundTrip = try TaskPersistence.decoder().decode(
+      TaskDocument.self, from: TaskPersistence.encoded(document))
+    XCTAssertEqual(roundTrip.tasks.map(\.category), [.work, .study])
+    XCTAssertThrowsError(
+      try TaskPersistence.decoder().decode(
+        TaskItem.self, from: Data(#"{"id":"x","title":"x","category":"bogus"}"#.utf8)))
   }
 }

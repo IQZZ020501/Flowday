@@ -6,6 +6,7 @@ struct TaskRowView: View {
   let onDelete: () -> Void
   @State private var hovered = false
   @State private var targeted = false
+  @State private var rowHeight: CGFloat = 0
 
   private var urgency: DeadlineUrgency {
     task.urgency(at: store.now, hours: store.settings.reminderHours)
@@ -97,11 +98,19 @@ struct TaskRowView: View {
     )
     .onHover { hovered = $0 }
     .contextMenu { actions }
-    .dropDestination(for: String.self) { values, _ in
+    .dropDestination(for: String.self) { values, location in
       guard !task.completed, let source = values.first else { return false }
-      return store.reorder(source, before: task.id)
+      // Dropping on the lower half places the task after this row, so the last slot is reachable.
+      return store.reorder(source, before: task.id, after: location.y > rowHeight / 2)
     } isTargeted: {
       targeted = $0 && !task.completed
+    }
+    .background {
+      GeometryReader { geometry in
+        Color.clear
+          .onAppear { rowHeight = geometry.size.height }
+          .onChange(of: geometry.size.height) { _, height in rowHeight = height }
+      }
     }
     .accessibilityElement(children: .contain)
     .accessibilityIdentifier("task-row-\(task.id)")

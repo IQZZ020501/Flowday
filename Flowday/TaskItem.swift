@@ -21,6 +21,17 @@ enum TaskCategory: String, Codable, CaseIterable, Identifiable {
     case .life: "leaf"
     }
   }
+
+  /// Accepts the stored Chinese raw values as well as English case names from older exports.
+  init(from decoder: Decoder) throws {
+    let container = try decoder.singleValueContainer()
+    let raw = try container.decode(String.self)
+    let key = raw.lowercased()
+    guard let value = Self(rawValue: raw) ?? Self.allCases.first(where: { "\($0)" == key }) else {
+      throw DecodingError.dataCorruptedError(in: container, debugDescription: "未知分类：\(raw)")
+    }
+    self = value
+  }
 }
 
 enum TaskSort: String, Codable, CaseIterable, Identifiable {
@@ -76,6 +87,45 @@ struct TaskItem: Codable, Identifiable, Equatable {
 
   var tagList: [String] { tags ?? [] }
 
+  init(
+    id: String = UUID().uuidString, title: String, note: String? = nil,
+    priority: Priority = .medium, category: TaskCategory = .work, dueDate: String? = nil,
+    dueTime: String? = nil, completed: Bool = false, createdAt: Date = Date(),
+    completedAt: Date? = nil, snoozedUntil: Date? = nil, order: Int? = nil, tags: [String]? = nil
+  ) {
+    self.id = id
+    self.title = title
+    self.note = note
+    self.priority = priority
+    self.category = category
+    self.dueDate = dueDate
+    self.dueTime = dueTime
+    self.completed = completed
+    self.createdAt = createdAt
+    self.completedAt = completedAt
+    self.snoozedUntil = snoozedUntil
+    self.order = order
+    self.tags = tags
+  }
+
+  /// Missing optional fields fall back to defaults so older or hand-written JSON stays readable.
+  init(from decoder: Decoder) throws {
+    let c = try decoder.container(keyedBy: CodingKeys.self)
+    id = try c.decode(String.self, forKey: .id)
+    title = try c.decode(String.self, forKey: .title)
+    note = try c.decodeIfPresent(String.self, forKey: .note)
+    priority = try c.decodeIfPresent(Priority.self, forKey: .priority) ?? .medium
+    category = try c.decodeIfPresent(TaskCategory.self, forKey: .category) ?? .work
+    dueDate = try c.decodeIfPresent(String.self, forKey: .dueDate)
+    dueTime = try c.decodeIfPresent(String.self, forKey: .dueTime)
+    completed = try c.decodeIfPresent(Bool.self, forKey: .completed) ?? false
+    createdAt = try c.decodeIfPresent(Date.self, forKey: .createdAt) ?? Date()
+    completedAt = try c.decodeIfPresent(Date.self, forKey: .completedAt)
+    snoozedUntil = try c.decodeIfPresent(Date.self, forKey: .snoozedUntil)
+    order = try c.decodeIfPresent(Int.self, forKey: .order)
+    tags = try c.decodeIfPresent([String].self, forKey: .tags)
+  }
+
   func deadline(calendar: Calendar = .current) -> Date? {
     guard let dueDate, let day = TaskDates.date(dueDate, calendar: calendar) else { return nil }
     let time = dueTime?.split(separator: ":").compactMap { Int($0) }
@@ -118,6 +168,20 @@ enum TaskDates {
       day(result, calendar: calendar) == text
     else { return nil }
     return result
+  }
+
+  /// Default deadline for new tasks: today 18:00 while it is at least an hour away,
+  /// otherwise two hours from now rounded up to the next half hour.
+  static func defaultDeadline(now: Date, calendar: Calendar = .current) -> Date {
+    if let evening = calendar.date(bySettingHour: 18, minute: 0, second: 0, of: now),
+      evening.timeIntervalSince(now) >= 3600
+    {
+      return evening
+    }
+    let later = now.addingTimeInterval(7200)
+    guard let hour = calendar.dateInterval(of: .hour, for: later)?.start else { return later }
+    let offset = later.timeIntervalSince(hour)
+    return hour.addingTimeInterval(offset == 0 ? 0 : offset <= 1800 ? 1800 : 3600)
   }
 
   static func heading(_ date: Date, now: Date, calendar: Calendar = .current) -> String {

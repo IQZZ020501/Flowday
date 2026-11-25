@@ -77,7 +77,7 @@ struct TaskEditorView: View {
       }.formStyle(.grouped).scrollContentBackground(.hidden)
 
       HStack(spacing: 14) {
-        Text(draft.isNew ? "⌘↩ 保存" : "修改后实时保存到本地")
+        Text("⌘↩ 保存")
           .font(.system(size: 10)).foregroundStyle(.secondary)
         Spacer()
         Button("取消") { dismiss() }.keyboardShortcut(.cancelAction)
@@ -146,11 +146,17 @@ struct QuickAddView: View {
   @State private var tags = ""
   @State private var hasDate = true
   @State private var hasTime = true
-  @State private var date =
-    Calendar.current.date(bySettingHour: 18, minute: 0, second: 0, of: Date()) ?? Date()
+  /// nil means "follow the default deadline", which is recomputed from the current time so it
+  /// never goes stale (past 18:00, or overnight while the app stays open).
+  @State private var customDate: Date?
   @State private var datePopover = false
   @State private var optionsExpanded = false
   @FocusState private var titleFocused: Bool
+
+  private var date: Date { customDate ?? TaskDates.defaultDeadline(now: store.now) }
+  private var dateBinding: Binding<Date> {
+    Binding(get: { date }, set: { customDate = $0 })
+  }
 
   var body: some View {
     VStack(alignment: .leading, spacing: 10) {
@@ -222,7 +228,7 @@ struct QuickAddView: View {
         .font(.system(size: 11)).lineLimit(1)
       }.buttonStyle(.plain).foregroundStyle(.secondary).help("设置截止日期")
         .popover(isPresented: $datePopover) {
-          Form { DeadlineOptions(hasDate: $hasDate, hasTime: $hasTime, date: $date) }
+          Form { DeadlineOptions(hasDate: $hasDate, hasTime: $hasTime, date: dateBinding) }
             .formStyle(.grouped).frame(width: 340, height: 270).padding(6)
         }
     }.controlSize(.small)
@@ -238,6 +244,7 @@ struct QuickAddView: View {
 
   private func add() {
     guard !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+    let date = customDate ?? TaskDates.defaultDeadline(now: Date())
     let task = TaskItem(
       title: title, priority: priority, category: category,
       dueDate: hasDate ? TaskDates.day(date) : nil,
@@ -246,6 +253,7 @@ struct QuickAddView: View {
     if store.saveTask(task) {
       title = ""
       tags = ""
+      customDate = nil
     }
   }
 }

@@ -15,23 +15,27 @@ struct ReminderPlan: Equatable {
       guard let due = task.deadline() else { continue }
       let base = "daylight.\(task.id).\(Int(due.timeIntervalSince1970))"
       let body = "[\(task.priority.label)] \(task.title)"
-      if let snooze = task.snoozedUntil {
+      let soon = due.addingTimeInterval(-Double(hours) * 3600)
+      // Only a snooze that has not fired yet needs its own alert.
+      if let snooze = task.snoozedUntil, snooze > now {
         plans.append(
           .init(
             identifier: "\(base).snooze.\(Int(snooze.timeIntervalSince1970))", taskID: task.id,
             title: "Flowday · 延后提醒", body: body, date: max(snooze, now.addingTimeInterval(2))))
-      } else if due > now {
+      }
+      // A snooze replaces the advance alert only when it lands after the advance alert time.
+      if due > now, task.snoozedUntil.map({ soon > $0 }) ?? true {
         plans.append(
           .init(
             identifier: base + ".soon", taskID: task.id, title: "Flowday · 截止日期临近",
-            body: body,
-            date: max(due.addingTimeInterval(-Double(hours) * 3600), now.addingTimeInterval(2))))
+            body: body, date: max(soon, now.addingTimeInterval(2))))
       }
-      if task.snoozedUntil == nil || task.snoozedUntil! < due {
+      // Tasks that are already overdue do not get a burst of immediate "due" alerts.
+      if due > now, task.snoozedUntil.map({ $0 < due }) ?? true {
         plans.append(
           .init(
             identifier: base + ".due", taskID: task.id, title: "Flowday · 任务已到期",
-            body: body, date: max(due, now.addingTimeInterval(2))))
+            body: body, date: due))
       }
     }
     return Array(plans.sorted { $0.date < $1.date }.prefix(64))
@@ -76,16 +80,17 @@ final class ReminderService: NSObject, UNUserNotificationCenterDelegate {
     }
   }
 
-  func synchronize(tasks: [TaskItem], settings: AppSettings, now: Date) async {
+  func synchronize(tasks: [TaskItem], settings: AppSettings) async {
     guard !disabled else { return }
     generation += 1
     let current = generation
     let authorization = await center.notificationSettings().authorizationStatus
     guard current == generation, !Task.isCancelled else { return }
+    // Always plan against the real clock; a stale UI clock can produce triggers in the past.
+    let now = Date()
     let permitted = authorization == .authorized || authorization == .provisional
-    let plans =
-      settings.notificationsEnabled && permitted
-      ? ReminderPlan.make(tasks: tasks, hours: settings.reminderHours, now: now) : []
+    let active = settings.notificationsEnabled && permitted
+    let plans = active ? ReminderPlan.make(tasks: tasks, hours: settings.reminderHours, now: now) : []
     let pending = await center.pendingNotificationRequests()
     let delivered = await center.deliveredNotifications()
     guard current == generation, !Task.isCancelled else { return }
@@ -104,6 +109,14 @@ final class ReminderService: NSObject, UNUserNotificationCenterDelegate {
     let deliveredIDs = Set(delivered.map { $0.request.identifier })
     let pendingIDs = Set(pending.map(\.identifier))
     var scheduled = UserDefaults.standard.dictionary(forKey: historyKey) as? [String: Double] ?? [:]
+    if active {
+      // Forget alerts that no longer belong to any plan so the history cannot grow forever.
+      let kept = scheduled.filter { expected.contains($0.key) || pendingIDs.contains($0.key) }
+      if kept.count != scheduled.count {
+        scheduled = kept
+        UserDefaults.standard.set(scheduled, forKey: historyKey)
+      }
+    }
     for plan in plans where !deliveredIDs.contains(plan.identifier) {
       guard current == generation, !Task.isCancelled else { return }
       // A past scheduled alert may already have been dismissed by the user.

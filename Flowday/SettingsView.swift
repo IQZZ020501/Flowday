@@ -97,7 +97,7 @@ struct SettingsView: View {
     if !enabled {
       store.updateSettings { $0.notificationsEnabled = false }
       Task {
-        await reminders.synchronize(tasks: store.tasks, settings: store.settings, now: store.now)
+        await reminders.synchronize(tasks: store.tasks, settings: store.settings)
       }
       return
     }
@@ -106,7 +106,7 @@ struct SettingsView: View {
     Task {
       let allowed = await reminders.requestPermission()
       store.updateSettings { $0.notificationsEnabled = allowed }
-      await reminders.synchronize(tasks: store.tasks, settings: store.settings, now: store.now)
+      await reminders.synchronize(tasks: store.tasks, settings: store.settings)
       requestingPermission = false
     }
   }

@@ -14,6 +14,8 @@ final class TaskStore {
   var errorMessage: String?
   var notice: String?
   var now = Date()
+  /// Source of the current time; injectable so tests can pin the clock.
+  var clock: () -> Date = { Date() }
   var searchFocusToken = UUID()
   private(set) var widgetNavigationToken = UUID()
   private(set) var widgetSyncStatus = "尚未同步"
@@ -76,11 +78,19 @@ final class TaskStore {
     }
   }
 
+  /// Updates `now` from the clock. Mutations call this first so timestamps never lag behind
+  /// the 30-second UI refresh (e.g. a completion just after midnight landing on the previous day).
+  @discardableResult
+  func refreshNow() -> Date {
+    now = clock()
+    return now
+  }
+
   @discardableResult
   func openWidgetURL(_ url: URL) -> Bool {
     guard let destination = WidgetDestination.destination(for: url) else { return false }
     filter = TaskFilter()
-    now = Date()
+    refreshNow()
     widgetNavigationToken = UUID()
     switch destination {
     case .today:
@@ -120,11 +130,11 @@ final class TaskStore {
   }
 
   func newTask(completed: Bool = false) {
-    let time = Calendar.current.date(bySettingHour: 18, minute: 0, second: 0, of: now) ?? now
+    let time = TaskDates.defaultDeadline(now: refreshNow())
     editor = EditorDraft(
       task: TaskItem(
         title: "", category: filter.category ?? .work,
-        dueDate: TaskDates.day(now), dueTime: TaskDates.time(time),
+        dueDate: TaskDates.day(time), dueTime: TaskDates.time(time),
         completed: completed), isNew: true)
   }
 
@@ -132,6 +142,7 @@ final class TaskStore {
 
   @discardableResult
   func saveTask(_ input: TaskItem) -> Bool {
+    let now = refreshNow()
     var task = input
     task.title = task.title.trimmingCharacters(in: .whitespacesAndNewlines)
     task.note = task.note?.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -158,6 +169,7 @@ final class TaskStore {
   }
 
   func toggle(_ id: String) {
+    let now = refreshNow()
     commit { document in
       guard let i = document.tasks.firstIndex(where: { $0.id == id }) else { return }
       document.tasks[i].completed.toggle()
@@ -169,6 +181,7 @@ final class TaskStore {
   func delete(_ id: String) { commit { $0.tasks.removeAll { $0.id == id } } }
 
   func snooze(_ id: String) {
+    let now = refreshNow()
     commit { document in
       guard let i = document.tasks.firstIndex(where: { $0.id == id && !$0.completed }) else {
         return

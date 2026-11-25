@@ -69,6 +69,54 @@ private struct WidgetSyncPrompt: View {
   }
 }
 
+private struct WidgetGlassBackground: View {
+  @Environment(\.colorScheme) private var colorScheme
+  @Environment(\.colorSchemeContrast) private var contrast
+  @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
+
+  private var dark: Bool { colorScheme == .dark }
+
+  var body: some View {
+    ZStack {
+      if reduceTransparency {
+        Color(nsColor: .windowBackgroundColor)
+      } else {
+        Color(nsColor: .windowBackgroundColor)
+          .opacity(contrast == .increased ? 0.88 : (dark ? 0.28 : 0.40))
+        LinearGradient(
+          colors: [.white.opacity(dark ? 0.10 : 0.24), .clear],
+          startPoint: .topLeading, endPoint: .bottomTrailing)
+        ContainerRelativeShape()
+          .strokeBorder(
+            LinearGradient(
+              colors: [.white.opacity(dark ? 0.32 : 0.65), .white.opacity(0.04)],
+              startPoint: .topLeading, endPoint: .bottomTrailing), lineWidth: 1)
+      }
+    }
+    // WidgetKit replaces this removable layer with native glass in the clear appearance.
+    .accessibilityHidden(true)
+  }
+}
+
+private struct WidgetGlassActionBackground: View {
+  @Environment(\.widgetRenderingMode) private var renderingMode
+  @Environment(\.colorScheme) private var colorScheme
+  @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
+
+  var body: some View {
+    let shape = RoundedRectangle(cornerRadius: 9)
+    if renderingMode == .fullColor {
+      shape.fill(Color.primary.opacity(reduceTransparency ? 0.08 : 0.035))
+        .overlay {
+          shape.strokeBorder(
+            Color.white.opacity(colorScheme == .dark ? 0.18 : 0.55), lineWidth: 1)
+        }
+    } else {
+      shape.strokeBorder(Color.primary.opacity(0.22), lineWidth: 1)
+    }
+  }
+}
+
 private struct FlowdayTasksView: View {
   let entry: FlowdayWidgetEntry
   @Environment(\.widgetFamily) private var family
@@ -101,7 +149,7 @@ private struct FlowdayTasksView: View {
       }
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-    .containerBackground(for: .widget) { Color(nsColor: .windowBackgroundColor) }
+    .containerBackground(for: .widget) { WidgetGlassBackground() }
     .widgetURL(URL(string: "daylight://today"))
     .environment(\.locale, Locale(identifier: "zh_CN"))
   }
@@ -182,7 +230,7 @@ private struct FlowdayDailyTasksView: View {
       }
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-    .containerBackground(for: .widget) { Color(nsColor: .windowBackgroundColor) }
+    .containerBackground(for: .widget) { WidgetGlassBackground() }
     .widgetURL(URL(string: "daylight://today"))
     .environment(\.locale, Locale(identifier: "zh_CN"))
   }
@@ -207,9 +255,7 @@ private struct FlowdayDailyTasksView: View {
             .foregroundStyle(accent)
         }
         .padding(.horizontal, 10).frame(height: 34)
-        .background(Color.primary.opacity(0.035), in: RoundedRectangle(cornerRadius: 7))
-        .overlay(
-          RoundedRectangle(cornerRadius: 7).strokeBorder(Color.primary.opacity(0.10), lineWidth: 1))
+        .background { WidgetGlassActionBackground() }
       }.accessibilityLabel("在 Flowday 中记录新任务")
 
       if summary.displayedTasks.isEmpty {
@@ -277,8 +323,6 @@ private struct FlowdayDailyTasksView: View {
             .foregroundStyle(.secondary).lineLimit(1)
           Spacer(minLength: 0)
           Text(task.category.rawValue).foregroundStyle(.secondary)
-            .padding(.horizontal, 4).padding(.vertical, 1)
-            .background(Color.primary.opacity(0.045), in: RoundedRectangle(cornerRadius: 3))
         }.font(.system(size: 9)).lineLimit(1)
       }
     }
@@ -360,7 +404,7 @@ private struct FlowdayCalendarView: View {
       }
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-    .containerBackground(for: .widget) { Color(nsColor: .windowBackgroundColor) }
+    .containerBackground(for: .widget) { WidgetGlassBackground() }
     .widgetURL(URL(string: "daylight://completed"))
     .environment(\.locale, Locale(identifier: "zh_CN"))
   }
@@ -464,6 +508,7 @@ struct FlowdayTasksWidget: Widget {
     .configurationDisplayName("今日待办")
     .description("在桌面查看今日待办与完成数量，点击打开 Flowday。")
     .supportedFamilies([.systemSmall, .systemMedium])
+    .containerBackgroundRemovable()
   }
 }
 
@@ -477,6 +522,7 @@ struct FlowdayCompletionCalendarWidget: Widget {
     .configurationDisplayName("完成日历")
     .description("查看本月每天完成的任务数量和连续记录，点击打开完成归档。")
     .supportedFamilies([.systemMedium, .systemLarge])
+    .containerBackgroundRemovable()
   }
 }
 
@@ -490,6 +536,7 @@ struct FlowdayDailyTasksWidget: Widget {
     .configurationDisplayName("每日任务")
     .description("查看今日任务、完成进度与任务详情，点击加号在 Flowday 中记录新任务。")
     .supportedFamilies([.systemLarge])
+    .containerBackgroundRemovable()
   }
 }
 

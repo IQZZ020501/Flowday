@@ -1,4 +1,3 @@
-import Combine
 import SwiftUI
 
 struct ContentView: View {
@@ -60,12 +59,19 @@ struct ContentView: View {
       } catch {}
     }
     .task(id: store.document) {
-      await reminders.synchronize(tasks: store.tasks, settings: store.settings, now: store.now)
+      await reminders.synchronize(tasks: store.tasks, settings: store.settings)
     }
-    .onReceive(Timer.publish(every: 30, on: .main, in: .common).autoconnect()) { store.now = $0 }
+    .task {
+      // A long-lived task keeps ticking even when the body re-renders (a Timer created in
+      // body would be recreated and reset on every update).
+      while !Task.isCancelled {
+        try? await Task.sleep(for: .seconds(30))
+        store.refreshNow()
+      }
+    }
     .onChange(of: scenePhase) { _, phase in
       if phase == .active {
-        store.now = Date()
+        store.refreshNow()
         Task { await reminders.refresh() }
       }
     }
